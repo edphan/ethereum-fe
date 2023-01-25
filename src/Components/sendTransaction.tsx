@@ -31,7 +31,7 @@ const SendTransaction = ({ balance }: { balance: string | undefined }) => {
   const [isAmountError, setIsAmountError] = useState(false);
   const [isNotEnoughEth, setIsNotEnoughEth] = useState(false);
 
-  const { config } = usePrepareSendTransaction({
+  const { config, isError } = usePrepareSendTransaction({
     request: {
       to: debouncedTo,
       value: debouncedAmount ? utils.parseEther(debouncedAmount) : undefined,
@@ -62,7 +62,7 @@ const SendTransaction = ({ balance }: { balance: string | undefined }) => {
       setIsNotEnoughEth(true);
       return;
     }
-
+    console.log("runs here");
     e.preventDefault();
     sendTransaction?.();
   };
@@ -94,7 +94,11 @@ const SendTransaction = ({ balance }: { balance: string | undefined }) => {
             setAmount(e.target.value);
           }}
         ></Input>
-        {isNotEnoughEth && <Text color="red">Not enough ETH balance</Text>}
+        {(isError || isNotEnoughEth) && (
+          <Text color="red">
+            err: insufficient funds for gas * price + value
+          </Text>
+        )}
       </FormControl>
       {isSuccess && (
         <div>

@@ -5,7 +5,7 @@ import {
   useDisconnect,
   useEnsName,
 } from "wagmi";
-import { Center, Container, Button, Flex } from "@chakra-ui/react";
+import { Center, Container, Button, Flex, Text } from "@chakra-ui/react";
 import SendTransaction from "./sendTransaction";
 
 export default function Profile() {
@@ -17,26 +17,20 @@ export default function Profile() {
   } = useBalance({ address: address });
   const { connect, connectors, error, isLoading, pendingConnector } =
     useConnect();
-  const { disconnect } = useDisconnect();
-
-  const disconnectWallet = () => disconnect();
 
   if (isConnected) {
     return (
       <Container centerContent>
-        <div>{address}</div>
-        <div>Connected to {connector?.name}</div>
+        <Text>{address}</Text>
+        <Text>Connected to {connector?.name}</Text>
         {isLoadingBalance && <div>Balance loading...</div>}
         {isError && <div>Error loading balance</div>}
         {!isLoadingBalance && !isError && (
-          <div>
+          <Text>
             Balance: {data?.formatted} {data?.symbol}
-          </div>
+          </Text>
         )}
         <SendTransaction />
-        <Button colorScheme="red" variant="ghost" onClick={disconnectWallet}>
-          Disconnect
-        </Button>
       </Container>
     );
   }

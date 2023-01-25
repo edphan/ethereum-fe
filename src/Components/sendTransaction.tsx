@@ -1,7 +1,16 @@
-import { Button, Input, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  Container,
+  Flex,
+  Input,
+  Text,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
 import {
+  useDisconnect,
   usePrepareSendTransaction,
   useSendTransaction,
   useWaitForTransaction,
@@ -9,6 +18,7 @@ import {
 import { utils } from "ethers";
 
 const SendTransaction = () => {
+  const { disconnect } = useDisconnect();
   const [to, setTo] = useState("");
   const [debouncedTo] = useDebounce(to, 500);
 
@@ -33,9 +43,11 @@ const SendTransaction = () => {
     sendTransaction?.();
   };
 
+  const handleDisconnect = () => disconnect();
+
   return (
-    <>
-      <Text>Send ETH to an address</Text>
+    <Container display="flex" flexDirection="column" gap="10px">
+      <Text as="b">Send ETH to an address</Text>
       <Input
         type="text"
         placeholder="Address"
@@ -54,15 +66,20 @@ const SendTransaction = () => {
           </div>
         </div>
       )}
-      <Button
-        isLoading={isLoading}
-        colorScheme="messenger"
-        disabled={!sendTransaction || !to || !amount}
-        onClick={handleSubmit}
-      >
-        {isLoading ? "Loading..." : "Send ETH transaction"}
-      </Button>
-    </>
+      <Flex justify="flex-end" gap="10px">
+        <Button colorScheme="red" variant="ghost" onClick={handleDisconnect}>
+          Disconnect
+        </Button>
+        <Button
+          isLoading={isLoading}
+          colorScheme="messenger"
+          disabled={!sendTransaction || !to || !amount}
+          onClick={handleSubmit}
+        >
+          {isLoading ? "Loading..." : "Send ETH transaction"}
+        </Button>
+      </Flex>
+    </Container>
   );
 };
 

@@ -7,7 +7,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 
 export default function App({ Component, pageProps }: AppProps) {
   const { chains, provider, webSocketProvider } = configureChains(
-    [goerli],
+    [goerli, sepolia],
     [publicProvider()]
   );
 

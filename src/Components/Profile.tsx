@@ -15,14 +15,14 @@ export default function Profile() {
   if (isConnected) {
     return (
       <Container centerContent>
-        <Text>{address}</Text>
-        <Text>Connected to {connector?.name}</Text>
+        <div>{address}</div>
+        <div>Connected to {connector?.name}</div>
         {isLoadingBalance && <div>Balance loading...</div>}
         {isError && <div>Error loading balance</div>}
         {!isLoadingBalance && !isError && (
-          <Text>
+          <div>
             Balance: {data?.formatted} {data?.symbol}
-          </Text>
+          </div>
         )}
         <SendTransaction balance={data?.formatted} />
       </Container>

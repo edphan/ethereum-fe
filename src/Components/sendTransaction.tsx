@@ -90,6 +90,7 @@ const SendTransaction = ({ balance }: { balance: string | undefined }) => {
           placeholder="ETH"
           onChange={(e) => {
             if (isAmountError) setIsAmountError(false);
+            if (isNotEnoughEth) setIsNotEnoughEth(false);
             setAmount(e.target.value);
           }}
         ></Input>

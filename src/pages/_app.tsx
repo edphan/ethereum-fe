@@ -1,5 +1,5 @@
 import type { AppProps } from "next/app";
-import { configureChains, createClient, WagmiConfig } from "wagmi";
+import { configureChains, createClient, goerli, WagmiConfig } from "wagmi";
 import { sepolia } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
@@ -7,7 +7,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 
 export default function App({ Component, pageProps }: AppProps) {
   const { chains, provider, webSocketProvider } = configureChains(
-    [sepolia],
+    [goerli],
     [publicProvider()]
   );
 

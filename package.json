@@ -24,6 +24,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "4.9.4",
+    "use-debounce": "^9.0.3",
     "wagmi": "^0.10.15"
   }
 }

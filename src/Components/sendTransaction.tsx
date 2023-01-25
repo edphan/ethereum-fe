@@ -19,7 +19,7 @@ import {
 } from "wagmi";
 import { utils } from "ethers";
 
-const SendTransaction = () => {
+const SendTransaction = ({ balance }: { balance: string | undefined }) => {
   const { disconnect } = useDisconnect();
   const [to, setTo] = useState("");
   const [debouncedTo] = useDebounce(to, 500);
@@ -29,6 +29,7 @@ const SendTransaction = () => {
 
   const [isToError, setIsToError] = useState(false);
   const [isAmountError, setIsAmountError] = useState(false);
+  const [isNotEnoughEth, setIsNotEnoughEth] = useState(false);
 
   const { config } = usePrepareSendTransaction({
     request: {
@@ -57,6 +58,11 @@ const SendTransaction = () => {
       setIsAmountError(true);
       return;
     }
+    if (parseInt(amount, 10) > parseInt(balance || "", 10)) {
+      setIsNotEnoughEth(true);
+      return;
+    }
+
     e.preventDefault();
     sendTransaction?.();
   };
@@ -87,28 +93,29 @@ const SendTransaction = () => {
             setAmount(e.target.value);
           }}
         ></Input>
-        {isSuccess && (
-          <div>
-            Successfully sent {amount} ether to {to}
-            <div>
-              <a href={`https://etherscan.io/tx/${data?.hash}`}>Etherscan</a>
-            </div>
-          </div>
-        )}
-        <Flex justify="flex-end" gap="20px">
-          <Button colorScheme="red" variant="link" onClick={handleDisconnect}>
-            Disconnect
-          </Button>
-          <Button
-            isLoading={isLoading}
-            colorScheme="messenger"
-            disabled={!sendTransaction || !to || !amount}
-            onClick={handleSubmit}
-          >
-            {isLoading ? "Loading..." : "Send ETH transaction"}
-          </Button>
-        </Flex>
+        {isNotEnoughEth && <Text color="red">Not enough ETH balance</Text>}
       </FormControl>
+      {isSuccess && (
+        <div>
+          Successfully sent {amount} ether to {to}
+          <div>
+            <a href={`https://etherscan.io/tx/${data?.hash}`}>Etherscan</a>
+          </div>
+        </div>
+      )}
+      <Flex justify="flex-end" gap="20px">
+        <Button colorScheme="red" variant="link" onClick={handleDisconnect}>
+          Disconnect
+        </Button>
+        <Button
+          isLoading={isLoading}
+          colorScheme="messenger"
+          disabled={!sendTransaction || !to || !amount}
+          onClick={handleSubmit}
+        >
+          {isLoading ? "Loading..." : "Send ETH transaction"}
+        </Button>
+      </Flex>
     </Container>
   );
 };

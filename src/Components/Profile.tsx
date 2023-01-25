@@ -24,7 +24,7 @@ export default function Profile() {
             Balance: {data?.formatted} {data?.symbol}
           </Text>
         )}
-        <SendTransaction />
+        <SendTransaction balance={data?.formatted} />
       </Container>
     );
   }

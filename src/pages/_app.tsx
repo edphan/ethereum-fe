@@ -1,6 +1,27 @@
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
+import type { AppProps } from "next/app";
+import { configureChains, createClient, WagmiConfig } from "wagmi";
+import { sepolia } from "wagmi/chains";
+import { publicProvider } from "wagmi/providers/public";
+import { MetaMaskConnector } from "wagmi/connectors/metaMask";
+import { ChakraProvider } from "@chakra-ui/react";
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  const { chains, provider, webSocketProvider } = configureChains(
+    [sepolia],
+    [publicProvider()]
+  );
+
+  const client = createClient({
+    autoConnect: true,
+    connectors: [new MetaMaskConnector({ chains })],
+    provider,
+    webSocketProvider,
+  });
+  return (
+    <ChakraProvider>
+      <WagmiConfig client={client}>
+        <Component {...pageProps} />
+      </WagmiConfig>
+    </ChakraProvider>
+  );
 }

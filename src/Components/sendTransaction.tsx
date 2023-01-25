@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Center,
-  Container,
-  Flex,
-  Input,
-  Text,
-} from "@chakra-ui/react";
+import { Button, Container, Flex, Input, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
 import {
@@ -66,8 +58,8 @@ const SendTransaction = () => {
           </div>
         </div>
       )}
-      <Flex justify="flex-end" gap="10px">
-        <Button colorScheme="red" variant="ghost" onClick={handleDisconnect}>
+      <Flex justify="flex-end" gap="20px">
+        <Button colorScheme="red" variant="link" onClick={handleDisconnect}>
           Disconnect
         </Button>
         <Button

@@ -1,10 +1,4 @@
-import {
-  useAccount,
-  useBalance,
-  useConnect,
-  useDisconnect,
-  useEnsName,
-} from "wagmi";
+import { useAccount, useBalance, useConnect } from "wagmi";
 import { Center, Container, Button, Flex, Text } from "@chakra-ui/react";
 import SendTransaction from "./sendTransaction";
 
